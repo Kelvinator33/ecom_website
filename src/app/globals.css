@@ -180,7 +180,7 @@ span.text-red {
 }
 
 .footer-banner-image {
-  @apply absolute -top-[20%] left-1/2 transform -translate-x-1/2 w-[300px] h-[300px] z-20;
+  @apply absolute -top-[20%] left-1/2 transform -translate-x-1/2 w-[300px] h-[300px] object-contain z-20;
 }
 
 .banner-desc .right {
@@ -593,7 +593,7 @@ span.text-red {
     @apply px-2 py-10 h-[300px];
   }
   .hero-banner-image {
-    @apply w-[60%] h-[50%] right-[5%];
+    @apply w-[60%] h-[50%] right-[5%] object-contain;
   }
   .hero-banner-container h1 {
     @apply text-2xl;
