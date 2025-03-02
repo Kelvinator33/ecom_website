@@ -89,7 +89,7 @@ export async function POST(request) {
         };
       }),
       success_url: `${origin}/success`,
-      cancel_url: `${origin}/canceled`,
+      cancel_url: `${origin}/`,
       automatic_tax: { enabled: false },
     };
 
