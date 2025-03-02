@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 import toast from "react-hot-toast";
 
 export const context = createContext();
@@ -10,6 +10,29 @@ export const ContextProvider = ({ children }) => {
   const [totalprice, settotalprice] = useState(0);
   const [totalquant, settotalquant] = useState(0);
   const [qty, setqty] = useState(1);
+
+  useEffect(() => {
+    const savedCartItems = localStorage.getItem("cartItems");
+    const savedTotalPrice = localStorage.getItem("totalPrice");
+    const savedTotalQuant = localStorage.getItem("totalQuant");
+
+    if (savedCartItems) {
+      setcartitems(JSON.parse(savedCartItems));
+    }
+    if (savedTotalPrice) {
+      settotalprice(parseFloat(savedTotalPrice));
+    }
+    if (savedTotalQuant) {
+      settotalquant(parseInt(savedTotalQuant, 10));
+    }
+  }, []);
+
+  // Save cart state to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(cartitems));
+    localStorage.setItem("totalPrice", totalprice.toString());
+    localStorage.setItem("totalQuant", totalquant.toString());
+  }, [cartitems, totalprice, totalquant]);
 
   let foundproduct;
   let index;
@@ -77,13 +100,10 @@ export const ContextProvider = ({ children }) => {
     });
   };
   const onRemove = (product) => {
-    foundproduct = cartitems.find((item) => item._id === product._id);
-    const newCartItems = cartitems.map((item, i) => {
-      if (i === index) {
-        return { ...item, quantity: (item.quantity || 1) + 1 };
-      }
-      return item;
-    });
+    const foundproduct = cartitems.find((item) => item._id === product._id);
+    if (!foundproduct) return; // Guard against undefined foundproduct
+
+    const newCartItems = cartitems.filter((item) => item._id !== product._id);
     settotalprice(
       (prevtotalprice) =>
         prevtotalprice - foundproduct.price * foundproduct.quantity
