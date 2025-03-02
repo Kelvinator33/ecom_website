@@ -16,7 +16,7 @@ const Herobanner = ({ name, price, description, picture, category }) => {
           </Link>
           <div className="desc">
             <h5>Description</h5>
-            <p>Best Headphones on the market</p>
+            <p>{description}</p>
           </div>
         </div>
       </div>
